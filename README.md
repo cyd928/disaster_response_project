@@ -3,7 +3,7 @@
 ## Project Overview
 * The aim of this project is to build a machine learning model pipeline to forecast the categories of disaster response messages. The result of the model prediction is illustrated by a web app 
 
-(Link to the web app: https://drp-dashboard.herokuapp.com/).
+	(Link to the web app: https://drp-dashboard.herokuapp.com/).
 
 
 ## Web App 
@@ -20,5 +20,14 @@ This web app serves two main functions:
 	* ```.csv```files: raw datasets of disaster responses
 	* ```process_data.py```: python script for ETL process
 	* ```DisasterResponse.db```: database where the post-processed data is stored
+
+* ```model```
+	* ```train_classifier.py```: python script for building machine learning model using db data
+
+* ```Procfile```: code to call gunicorn and run web app
+
+* ```README.md```: cover page / project description fie
+
+* ```Requirements.txt```: packages required to run the scripts
 
 
