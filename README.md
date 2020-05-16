@@ -3,7 +3,7 @@
 ## Project Overview
 * The aim of this project is to build a machine learning model pipeline to forecast the categories of disaster response messages. The result of the model prediction is illustrated by a web app 
 
-	(Link to the web app: https://drp-dashboard.herokuapp.com/).
+	(Link to the web app: http://0.0.0.0:3001/).
 
 
 ## Web App 
