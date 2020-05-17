@@ -36,7 +36,7 @@ def clean_data(df):
 
 def save_data(df, database_filepath):
     engine = create_engine('sqlite:///{}'.format(str(database_filepath)))
-    df.to_sql('msgcat', engine, index=False)
+    df.to_sql('msgcat', engine, index=False, if_exists='replace')
     pass  
 
 
