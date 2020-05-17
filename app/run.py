@@ -2,32 +2,34 @@ import json
 import plotly
 import pandas as pd
 
-from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import word_tokenize
+import nltk
+nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
-from flask import Flask
+
+## Data transform packages
+from nltk.tokenize import word_tokenize
+from nltk.stem.wordnet import WordNetLemmatizer
+
+
+
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
-from sklearn.externals import joblib
+from plotly.graph_objs import Histogram
+import joblib
 from sqlalchemy import create_engine
+from flask import Flask
+from utils import tokenize
 
 
 app = Flask(__name__)
 
-def tokenize(text):
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
 
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
 
-    return clean_tokens
 
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse.db')
 df = pd.read_sql_table('msgcat', engine)
+
 
 # load model
 model = joblib.load("../models/classifier.pkl")
@@ -36,8 +38,8 @@ model = joblib.load("../models/classifier.pkl")
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
+
 def index():
-    
     # extract data needed for visuals
     # Graph 1: Counts of genres
     genre_df = df.groupby('genre').count()['message']
@@ -49,6 +51,8 @@ def index():
     category_names = category_df.columns.tolist()
     category_counts = category_df.sum().values.tolist()
     
+    # Graph 3: Histogram of categories tagged per message
+    
     # create visuals
     
     graphs = [
@@ -56,7 +60,10 @@ def index():
             'data': [
                 Bar(
                     x=genre_names,
-                    y=genre_counts
+                    y=genre_counts,
+                    marker=dict(
+            color="rgb(0,148,251)")
+        
                 )
             ],
 
@@ -74,7 +81,9 @@ def index():
             'data': [
                 Bar(
                     x=category_names,
-                    y=category_counts
+                    y=category_counts,
+                     marker=dict(
+            color="rgb(90,190,152)")
                 )
             ],
 
@@ -85,6 +94,25 @@ def index():
                 },
                 'xaxis': {
                     'title': "Category"
+                }
+            }
+        },
+         {
+            'data': [
+                Histogram(
+                    x=category_df.sum(axis=1).tolist(),
+                     marker=dict(
+            color="rgb(45,169,202)")
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Categories per Message',
+                'yaxis': {
+                    'title': "Frequency"
+                },
+                'xaxis': {
+                    'title': "Number of Categories"
                 }
             }
         }
@@ -100,6 +128,7 @@ def index():
 
 # web page that handles user query and displays model results
 @app.route('/go')
+
 def go():
     # save user input in query
     query = request.args.get('query', '') 
@@ -114,7 +143,6 @@ def go():
         query=query,
         classification_result=classification_results
     )
-
 
 def main():
     app.run(host='0.0.0.0', port=3001, debug=True)

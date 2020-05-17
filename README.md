@@ -1,15 +1,20 @@
 # Disaster Response Pipeline Project
 
 ## Project Overview
-* The aim of this project is to build a machine learning model pipeline to forecast the categories of disaster response messages. The result of the model prediction is illustrated by a web app 
+* The aim of this project is to build a machine learning model pipeline to forecast the categories of disaster response messages. The result of the model prediction is illustrated by a web app. 
 
 	(Link to the web app: http://0.0.0.0:3001/).
 
 
 ## Web App 
 This web app serves two main functions:
-* Desmonstrate the characteristics of the training dataset
-* Allow users to input messages for the model to predict message categories
+1. Desmonstrate the characteristics of the training dataset
+
+![Optional Text](../master/visualizations.png)
+
+2. Allow users to input messages for the model to predict message categories
+
+![Optional Text](../master/prediction.png)
 
 ## File Explanations
 * ```app```
